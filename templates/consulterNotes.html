@@ -1,0 +1,26 @@
+    <h1>Consultez les de notes de:</h1>
+<form method="post" action="{% url 'consulterNotes.html'%}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Consulter</button>
+  </form>
+  
+  {% if notes %}
+    <h2>Notes de {{ form.cleaned_data.etudiant }}:</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Matière</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for note in notes %}
+          <tr>
+            <td>{{ note.matiere.nom }}</td>
+            <td>{{ note.note }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}

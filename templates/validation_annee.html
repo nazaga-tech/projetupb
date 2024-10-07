@@ -1,0 +1,47 @@
+<h1>Validation d'année</h1>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Valider</button>
+</form>
+
+{% if etudiants %}
+  <h2>Étudiants de {{ filiere }} - {{ annee_scolaire }}</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Moyenne Semestre 1</th>
+        <th>Moyenne Semestre 2</th>
+        <th>Moyenne Annuelle</th>
+        <th>Valider</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for etudiant in etudiants %}
+        <tr>
+          <td>{{ etudiant.nom }}</td>
+          <td>{{ etudiant.prenom }}</td>
+          <td>{{ etudiant.moyenne_semestre1 }}</td>
+          <td>{{ etudiant.moyenne_semestre2 }}</td>
+          <td>{{ etudiant.moyenne_annuelle }}</td>
+          <td>
+            <form method="post" action="{% url 'valider_passage' %}">
+              {% csrf_token %}
+              <input type="hidden" name="etudiant_id" value="{{ etudiant.id }}">
+              <input type="hidden" name="filiere_id" value="{{ filiere.id }}">
+              <input type="hidden" name="annee_scolaire_id" value="{{ annee_scolaire.id }}">
+              <button type="submit" class="btn btn-success">Valider</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <h3>Statistiques générales</h3>
+  <p>Nombre total d'étudiants : {{ total_etudiants }}</p>
+  <p>Moyenne générale Semestre 1 : {{ moyenne_generale_semestre1 }}</p>
+  <p>Moyenne générale Semestre 2 : {{ moyenne_generale_semestre2 }}</p>
+  <p>Moyenne générale Annuelle : {{ moyenne_generale_annuelle }}</p>
+{% endif %}

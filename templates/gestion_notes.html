@@ -1,0 +1,50 @@
+<form method="post" action="{% url 'gestion_notes' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Lorsque la filière est changée
+        $("#id_filiere").change(function () {
+            var filiereId = $(this).val();
+            var anneeScolaireId = $("#id_annee").val();
+            var url = $("#noteForm").attr("data-etudiant-url") + "?filiere_id=" + filiereId + "&annee_scolaire_id=" + anneeScolaireId;
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    // Met à jour la liste des étudiants
+                    var etudiantSelect = $("#id_etudiant");
+                    etudiantSelect.empty();
+                    etudiantSelect.append('<option value="">---------</option>');
+                    $.each(data, function(key, value) {
+                        etudiantSelect.append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+
+        // Lorsque l'année scolaire est changée
+        $("#id_annee").change(function () {
+            var filiereId = $("#id_filiere").val();
+            var anneeScolaireId = $(this).val();
+            var url = $("#noteForm").attr("data-etudiant-url") + "?filiere_id=" + filiereId + "&annee_id=" + anneeScolaireId;
+
+            $.ajax({
+                url: url,
+                success: function (data) {
+                    // Met à jour la liste des étudiants
+                    var etudiantSelect = $("#id_etudiant");
+                    etudiantSelect.empty();
+                    etudiantSelect.append('<option value="">---------</option>');
+                    $.each(data, function(key, value) {
+                        etudiantSelect.append('<option value="' + key + '">' + value + '</option>');
+                    });
+                }
+            });
+        });
+    });
+</script>
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+</form>

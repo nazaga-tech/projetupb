@@ -1,0 +1,33 @@
+<table>
+  Tout ces candidats ont ete accepte! Veillez confirmer ou non leur inscription!
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>username</th>
+        <th>Statut de l'inscription</th>
+        <th>Marquer comme réussi</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for candidat_accepte  in candidats_acceptes  %}
+      <tr>
+        <td>{{candidat_accepte.id }}</td>
+        <td>{{candidat_accepte.username }}</td>
+        <td>
+        <td>{% if candidat_accepte.inscription_reussi %}<span style="color: green;">Inscription Réussie</span> Réussie{% else %}<span style="color: orange;">Inscription attente</span>{% endif %}</td>
+        <td>
+          <form method="POST" action="gestion_inscriptions">
+            {% csrf_token %}
+            <input type="hidden" name="candidat_accepte_id" value="{{candidat_accepte.id }}">
+            Deja inscrit?
+            <input type="checkbox" name="inscription_reussi" value="OUI">
+            <label for="inscription_reussi">OUI</label>
+            <input type="checkbox" name="inscription_reussi" value="NON">
+            <label for="inscription_EnAttente">NON</label>
+            <button type="submit">Enregistrer</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>

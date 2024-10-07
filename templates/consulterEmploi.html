@@ -1,0 +1,29 @@
+<h1>Consulter l'emploi du temps</h1>
+
+<form method="post" action="consulter_emploi">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Consulter</button>
+</form>
+
+{% if emploi %}
+    <h2>Emploi du temps de la classe {{ form.cleaned_data.filiere }} - {{ form.cleaned_data.annee }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>Heures</th>
+                <th>Matière</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in emploi %}
+                <tr>
+                    <td>{{ e.jour }}</td>
+                    <td>{{ e.heures }}</td>
+                    <td>{{ e.matiere }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

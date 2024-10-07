@@ -1,0 +1,29 @@
+<h1>Consulter les Absences</h1>
+
+<form method="post" action="{% url 'consulter_absences'%}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Consulter</button>
+</form>
+
+{% if Absences %}
+    <h2>Les absences de l'etudiant {{ form.cleaned_data.etudiant }} </h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Jour</th>
+                <th>Heures</th>
+                <th>Absence</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ab in Absences %}
+                <tr>
+                    <td>{{ ab.jour }}</td>
+                    <td>{{ ab.heures }}</td>
+                    <td>{{ ab.Absence }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}

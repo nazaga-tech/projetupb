@@ -1,0 +1,34 @@
+<h1>une liste des candidats s'affichera ici avec leurs statuts</h1>
+{% for candidat in candidats %}
+    <tr>
+        <td>{{ candidat.username }}</td>
+        <td>{{ candidat.date_naissance }}</td>
+        <td>{{ candidat.email }}</td>
+        <td>{{ candidat.telephone }}</td>
+        <td>{{ candidat.nationalite }}</td>
+        <td>{{ candidat.cycle_vise }}</td>
+        <td>{{ candidat.niveau_etude }}</td>
+        <td>{{ candidat.Anne_visee }}</td>
+        <td>{{ candidat.filiere_visee }}</td>
+        <td>{{ candidat.lettre_motivation }}</td>
+        <td>{{ candidat.cv }}</td>
+        <td>{{ candidat.bulletins }}</td>
+        <td>{{ candidat.message }}</td>
+
+
+
+        <td>
+            {% if candidat.candidature_acceptee %}
+                <span style="color: green;">Candidat Acceptée</span>
+            {% else %}
+                <span style="color:orange;">Candidat rejette ou en attente</span>
+            {% endif %}
+            <form method="POST" action="gestion_candidatures">
+                {% csrf_token %}
+                <input type="hidden" name="candidat_id" value="{{ candidat.id }}">
+                <button type="submit" value="accepte" name="decision" style="background-color: green;">Accepter</button>
+                <button type="submit" value="rejette" name="decidion" style="background-color: red;">Rejetter</button>
+            </form>
+        </td>
+    </tr>
+{% endfor %}

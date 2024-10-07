@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Ajouter un emploi du temps</h1>
+  <form method="post" action="{% url 'gestion_emploi_du_temps'%}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+  </form>
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+  
+{% endblock %}
+
+<form method="post" class="form-inline my-2 my-lg-0">
+    {% csrf_token %}
+    <button class="btn btn-outline-danger my-2 my-sm-0" type="submit" formaction="{% url 'reinitialiser_emploi' filiere.id annee.id %}">Réinitialiser emploi du temps</button>
+</form>
+
